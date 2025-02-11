@@ -20,7 +20,7 @@
 package model;
 
 public class AdaptadorConexao implements ConexaoRede {
-    private ConexaoRede conexao;
+    private final ConexaoRede conexao;
 
     public AdaptadorConexao(ConexaoRede conexao) {
         this.conexao = conexao;

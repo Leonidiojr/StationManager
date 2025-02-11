@@ -246,7 +246,7 @@ public class UnidadeGrid {
 
                 quantidadeEnergiaConsumida += energiaConsumida / 1000; // Dividir por 1000 para converter para kWh
                 quantidadeEnergiaProduzida += energiaProduzida / 1000; // Dividir por 1000 para converter para kWh
-
+                
             
             }            
             

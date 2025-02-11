@@ -19,7 +19,6 @@
 
 package application;
 
-import application.TipoFonteDeEnergia;
 import static application.TipoFonteDeEnergia.BIOMASSA;
 import static application.TipoFonteDeEnergia.CARVAO;
 import static application.TipoFonteDeEnergia.EOLICA;
@@ -28,10 +27,8 @@ import static application.TipoFonteDeEnergia.GEOTERMICA;
 import static application.TipoFonteDeEnergia.HIDROELETRICA;
 import static application.TipoFonteDeEnergia.NUCLEAR;
 import static application.TipoFonteDeEnergia.SOLAR;
-import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import model.UnidadeGridConsumidora;
 import model.UnidadeGridFonteProducaoEnergia;
 import model.UnidadeGridGerenciadorDeRedesRadiais;
@@ -102,6 +99,9 @@ public class Docmd {
         usinadoGrid.setOnLineDesde(LocalDateTime.now());
         usinadoGrid.setQuantEstoqueParaRepassar(150000);
         unidadeGrid.addUsinaDeProducao(usinadoGrid);
+        unidadeGrid.setQuantidadeDeConsumidores(9);
+        unidadeGrid.setQuantidadeDeProdutores(1);
+        
         
         //Cria Matrix para acumular
         UnidadeGridMatrizEnergetica matrizEnergetica = new UnidadeGridMatrizEnergetica();
@@ -136,118 +136,124 @@ public class Docmd {
         fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();    
         matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia);
 
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA SOLAR UFCOM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(1500);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(2500);
-        fonteProducaoEnergia.setTipoFonteEnergia(SOLAR);
-        fonteProducaoEnergia.setFonteRenovavel(true);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(8);
-        fonteProducaoEnergia.setOperaRedeMonofasica(false);
-        fonteProducaoEnergia.setOperaRedeBifasica(false);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(500);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();                    
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia);        
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia2 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia2.setIdentificadorFonteProducao("USINA SOLAR UFCOM");
+        fonteProducaoEnergia2.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia2.setQuantidadeEnergiaConsumidaporHora(1500);
+        fonteProducaoEnergia2.setQuantidadeEnergiaProduzidaporHora(2500);
+        fonteProducaoEnergia2.setTipoFonteEnergia(SOLAR);
+        fonteProducaoEnergia2.setFonteRenovavel(true);
+        fonteProducaoEnergia2.setModoOperacao(0);
+        fonteProducaoEnergia2.setTempoOperacaoEstimado(8);
+        fonteProducaoEnergia2.setOperaRedeMonofasica(false);
+        fonteProducaoEnergia2.setOperaRedeBifasica(false);   
+        fonteProducaoEnergia2.setOperaRedetrifasica(true);
+        fonteProducaoEnergia2.setPotenciaEmEstoque(500);   
+        fonteProducaoEnergia2.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia2.calcularEArmazenarEnergiaProduzida();                    
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia2);        
 
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA EOLICA UFCOM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(1500);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(2500);
-        fonteProducaoEnergia.setTipoFonteEnergia(EOLICA);
-        fonteProducaoEnergia.setFonteRenovavel(true);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(12);
-        fonteProducaoEnergia.setOperaRedeMonofasica(false);
-        fonteProducaoEnergia.setOperaRedeBifasica(false);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(2500);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();            
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia);        
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia3 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia3.setIdentificadorFonteProducao("USINA EOLICA UFCOM");
+        fonteProducaoEnergia3.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia3.setQuantidadeEnergiaConsumidaporHora(1500);
+        fonteProducaoEnergia3.setQuantidadeEnergiaProduzidaporHora(2500);
+        fonteProducaoEnergia3.setTipoFonteEnergia(EOLICA);
+        fonteProducaoEnergia3.setFonteRenovavel(true);
+        fonteProducaoEnergia3.setModoOperacao(0);
+        fonteProducaoEnergia3.setTempoOperacaoEstimado(12);
+        fonteProducaoEnergia3.setOperaRedeMonofasica(false);
+        fonteProducaoEnergia3.setOperaRedeBifasica(false);   
+        fonteProducaoEnergia3.setOperaRedetrifasica(true);
+        fonteProducaoEnergia3.setPotenciaEmEstoque(2500);   
+        fonteProducaoEnergia3.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia3.calcularEArmazenarEnergiaProduzida();            
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia3);        
         
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA NUCLEAR UFCOM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(1500);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(2500);
-        fonteProducaoEnergia.setTipoFonteEnergia(NUCLEAR);
-        fonteProducaoEnergia.setFonteRenovavel(false);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(12);
-        fonteProducaoEnergia.setOperaRedeMonofasica(true);
-        fonteProducaoEnergia.setOperaRedeBifasica(true);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(2500);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();            
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia);                
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia4 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia4.setIdentificadorFonteProducao("USINA NUCLEAR UFCOM");
+        fonteProducaoEnergia4.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia4.setQuantidadeEnergiaConsumidaporHora(15000);
+        fonteProducaoEnergia4.setQuantidadeEnergiaProduzidaporHora(25000);
+        fonteProducaoEnergia4.setTipoFonteEnergia(NUCLEAR);
+        fonteProducaoEnergia4.setFonteRenovavel(false);
+        fonteProducaoEnergia4.setModoOperacao(0);
+        fonteProducaoEnergia4.setTempoOperacaoEstimado(12);
+        fonteProducaoEnergia4.setOperaRedeMonofasica(true);
+        fonteProducaoEnergia4.setOperaRedeBifasica(true);   
+        fonteProducaoEnergia4.setOperaRedetrifasica(true);
+        fonteProducaoEnergia4.setPotenciaEmEstoque(2500);   
+        fonteProducaoEnergia4.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia4.calcularEArmazenarEnergiaProduzida();            
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia4);                
         
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA CARVAO UF3COM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(500);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(500);
-        fonteProducaoEnergia.setTipoFonteEnergia(CARVAO);
-        fonteProducaoEnergia.setFonteRenovavel(true);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(24);
-        fonteProducaoEnergia.setOperaRedeMonofasica(false);
-        fonteProducaoEnergia.setOperaRedeBifasica(false);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(2500);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();            
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia);                
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia5 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia5.setIdentificadorFonteProducao("USINA CARVAO UF3COM");
+        fonteProducaoEnergia5.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia5.setQuantidadeEnergiaConsumidaporHora(500);
+        fonteProducaoEnergia5.setQuantidadeEnergiaProduzidaporHora(500);
+        fonteProducaoEnergia5.setTipoFonteEnergia(CARVAO);
+        fonteProducaoEnergia5.setFonteRenovavel(true);
+        fonteProducaoEnergia5.setModoOperacao(0);
+        fonteProducaoEnergia5.setTempoOperacaoEstimado(24);
+        fonteProducaoEnergia5.setOperaRedeMonofasica(false);
+        fonteProducaoEnergia5.setOperaRedeBifasica(false);   
+        fonteProducaoEnergia5.setOperaRedetrifasica(true);
+        fonteProducaoEnergia5.setPotenciaEmEstoque(2500);   
+        fonteProducaoEnergia5.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia5.calcularEArmazenarEnergiaProduzida();            
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia5);                
         
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA BIOMASSA UF3COM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(500);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(500);
-        fonteProducaoEnergia.setTipoFonteEnergia(BIOMASSA);
-        fonteProducaoEnergia.setFonteRenovavel(true);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(24);
-        fonteProducaoEnergia.setOperaRedeMonofasica(false);
-        fonteProducaoEnergia.setOperaRedeBifasica(false);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(200);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();            
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia); 
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia6 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia6.setIdentificadorFonteProducao("USINA BIOMASSA UF3COM");
+        fonteProducaoEnergia6.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia6.setQuantidadeEnergiaConsumidaporHora(500);
+        fonteProducaoEnergia6.setQuantidadeEnergiaProduzidaporHora(500);
+        fonteProducaoEnergia6.setTipoFonteEnergia(BIOMASSA);
+        fonteProducaoEnergia6.setFonteRenovavel(true);
+        fonteProducaoEnergia6.setModoOperacao(0);
+        fonteProducaoEnergia6.setTempoOperacaoEstimado(24);
+        fonteProducaoEnergia6.setOperaRedeMonofasica(false);
+        fonteProducaoEnergia6.setOperaRedeBifasica(false);   
+        fonteProducaoEnergia6.setOperaRedetrifasica(true);
+        fonteProducaoEnergia6.setPotenciaEmEstoque(200);   
+        fonteProducaoEnergia6.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia6.calcularEArmazenarEnergiaProduzida();            
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia6); 
         
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia7 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia7.setIdentificadorFonteProducao("USINA GEOTERMICA UF3COM");
+        fonteProducaoEnergia7.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia7.setQuantidadeEnergiaConsumidaporHora(50);
+        fonteProducaoEnergia7.setQuantidadeEnergiaProduzidaporHora(100);
+        fonteProducaoEnergia7.setTipoFonteEnergia(GEOTERMICA);
+        fonteProducaoEnergia7.setFonteRenovavel(false);
+        fonteProducaoEnergia7.setModoOperacao(0);
+        fonteProducaoEnergia7.setTempoOperacaoEstimado(24);
+        fonteProducaoEnergia7.setOperaRedeMonofasica(false);
+        fonteProducaoEnergia7.setOperaRedeBifasica(false);   
+        fonteProducaoEnergia7.setOperaRedetrifasica(true);
+        fonteProducaoEnergia7.setPotenciaEmEstoque(200);   
+        fonteProducaoEnergia7.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia7.calcularEArmazenarEnergiaProduzida();            
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia7); 
         
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA GEOTERMICA UF3COM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(50);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(100);
-        fonteProducaoEnergia.setTipoFonteEnergia(GEOTERMICA);
-        fonteProducaoEnergia.setFonteRenovavel(false);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(24);
-        fonteProducaoEnergia.setOperaRedeMonofasica(false);
-        fonteProducaoEnergia.setOperaRedeBifasica(false);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(200);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();            
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia); 
-        
-        fonteProducaoEnergia.setIdentificadorFonteProducao("USINA GAS_NATURAL UF3COM");
-        fonteProducaoEnergia.setPotenciaMaximaConsumida(2);
-        fonteProducaoEnergia.setQuantidadeEnergiaConsumidaporHora(50);
-        fonteProducaoEnergia.setQuantidadeEnergiaProduzidaporHora(100);
-        fonteProducaoEnergia.setTipoFonteEnergia(GAS_NATURAL);
-        fonteProducaoEnergia.setFonteRenovavel(true);
-        fonteProducaoEnergia.setModoOperacao(0);
-        fonteProducaoEnergia.setTempoOperacaoEstimado(24);
-        fonteProducaoEnergia.setOperaRedeMonofasica(false);
-        fonteProducaoEnergia.setOperaRedeBifasica(false);   
-        fonteProducaoEnergia.setOperaRedetrifasica(true);
-        fonteProducaoEnergia.setPotenciaEmEstoque(200);   
-        fonteProducaoEnergia.setOnLineDesde(LocalDateTime.now());
-        fonteProducaoEnergia.calcularEArmazenarEnergiaProduzida();            
-        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia); 
+        UnidadeGridFonteProducaoEnergia fonteProducaoEnergia8 = new UnidadeGridFonteProducaoEnergia();        
+        fonteProducaoEnergia8.setIdentificadorFonteProducao("USINA GAS_NATURAL UF3COM");
+        fonteProducaoEnergia8.setPotenciaMaximaConsumida(2);
+        fonteProducaoEnergia8.setQuantidadeEnergiaConsumidaporHora(50);
+        fonteProducaoEnergia8.setQuantidadeEnergiaProduzidaporHora(100);
+        fonteProducaoEnergia8.setTipoFonteEnergia(GAS_NATURAL);
+        fonteProducaoEnergia8.setFonteRenovavel(true);
+        fonteProducaoEnergia8.setModoOperacao(0);
+        fonteProducaoEnergia8.setTempoOperacaoEstimado(24);
+        fonteProducaoEnergia8.setOperaRedeMonofasica(false);
+        fonteProducaoEnergia8.setOperaRedeBifasica(false);   
+        fonteProducaoEnergia8.setOperaRedetrifasica(true);
+        fonteProducaoEnergia8.setPotenciaEmEstoque(200);   
+        fonteProducaoEnergia8.setOnLineDesde(LocalDateTime.now());
+        fonteProducaoEnergia8.calcularEArmazenarEnergiaProduzida();            
+        matrizEnergetica.addFontesProducaoEnergia(fonteProducaoEnergia8); 
        
         //Cria um cliente para a rede - 1/9
         UnidadeGridConsumidora consumidor = new UnidadeGridConsumidora();
@@ -478,32 +484,31 @@ public class Docmd {
             int x = (i % colunas) * larguraFrame;
             int y = (i / colunas) * alturaFrame;
 
-            if (i == 0) {
-                Gerenciador usinaDeProducaoCube = new Gerenciador();
-                usinaDeProducaoCube.setSize(larguraFrame, alturaFrame);
-
-                // Definir a posição do frame
-                usinaDeProducaoCube.setLocation(x, y);
-                usinaDeProducaoCube.setVisible(true);
-            } else if (i == 1) {
-                Usina unidadeGridCube = new Usina();
-                unidadeGridCube.setSize(larguraFrame, alturaFrame);
-
-                // Definir a posição do frame
-                unidadeGridCube.setLocation(x, y);
-                unidadeGridCube.setVisible(true);
-                
-            } else {
-                Consumidores unidadeGridCube = new Consumidores();
-                unidadeGridCube.setSize(larguraFrame, alturaFrame);
-
-                // Definir a posição do frame
-                unidadeGridCube.setLocation(x, y);
-                unidadeGridCube.setVisible(true);
-
-                // Atribuir o consumidor correto a partir da lista
-                unidadeGridCube.indiceObjeto = i - 2;
-                unidadeGridCube.setVisible(false);
+            switch (i) {
+                case 0 -> {
+                    Gerenciador usinaDeProducaoCube = new Gerenciador();
+                    usinaDeProducaoCube.setSize(larguraFrame, alturaFrame);
+                    // Definir a posição do frame
+                    usinaDeProducaoCube.setLocation(x, y);
+                    usinaDeProducaoCube.setVisible(true);
+                }
+                case 1 ->{
+                        Usina unidadeGridCube = new Usina();
+                        unidadeGridCube.setSize(larguraFrame, alturaFrame);
+                        // Definir a posição do frame
+                        unidadeGridCube.setLocation(x, y);
+                        unidadeGridCube.setVisible(true);
+                    }
+                default ->{
+                        Consumidores unidadeGridCube = new Consumidores();
+                        unidadeGridCube.setSize(larguraFrame, alturaFrame);
+                        // Definir a posição do frame
+                        unidadeGridCube.setLocation(x, y);
+                        unidadeGridCube.setVisible(true);
+                        // Atribuir o consumidor correto a partir da lista
+                        unidadeGridCube.indiceObjeto = i - 2;
+                        unidadeGridCube.setVisible(false);
+                    }
             }
         }
     }

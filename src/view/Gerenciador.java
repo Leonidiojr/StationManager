@@ -36,6 +36,7 @@ import model.ConexaoRede;
 import model.ConexaoTrifasica;
 import model.UnidadeGridGerenciadorDeRedesRadiais;
 import model.UnidadeGridMatrizEnergetica;
+import model.UnidadeGridUsinaDeProducao;
 
        
 public class Gerenciador extends javax.swing.JFrame {
@@ -69,7 +70,7 @@ public class Gerenciador extends javax.swing.JFrame {
                 jToggleButton1.setText(time);
                 if (!unidadeGrid.isRedeOnline()) {
                     jLabel6.setForeground(Color.red);
-                    jToggleButton4.setEnabled(false);
+                    jButton1.setEnabled(false);
                     Toolkit.getDefaultToolkit().beep();
                     System.out.println("Gerenciador desconectado!");
                 } else {
@@ -77,7 +78,7 @@ public class Gerenciador extends javax.swing.JFrame {
                     jLabel5.setText(unidadeGrid.getResponsavelUnidade());        
                     jLabel4.setText(unidadeGrid.getEnderecoUnidade());                    
                     jLabel6.setForeground(Color.green);
-                    jToggleButton4.setEnabled(false);
+                    jButton1.setEnabled(true);
                 }
 
                 if (unidadeGrid.getOnLineDesde() == null){
@@ -122,7 +123,7 @@ public class Gerenciador extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jToggleButton3 = new javax.swing.JToggleButton();
         jLabel14 = new javax.swing.JLabel();
-        jToggleButton4 = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -246,12 +247,10 @@ public class Gerenciador extends javax.swing.JFrame {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel14.setText("Online desde");
 
-        jToggleButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jToggleButton4.setText("...");
-        jToggleButton4.setEnabled(false);
-        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton4ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -264,12 +263,15 @@ public class Gerenciador extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jToggleButton4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                             .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -331,16 +333,15 @@ public class Gerenciador extends javax.swing.JFrame {
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jToggleButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel14)))
                 .addContainerGap())
         );
 
@@ -380,8 +381,6 @@ public class Gerenciador extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
 
-
-
         docmd.organizarGridDeFrames(jToggleButton1.isSelected());  
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -389,47 +388,46 @@ public class Gerenciador extends javax.swing.JFrame {
 
         UnidadeGridGerenciadorDeRedesRadiais unidadeGrid = UnidadeGridGerenciadorDeRedesRadiais.getInstanciaDoDistribuidor();
         switch (unidadeGrid.getTipoCorrenteFase()) {
-            case 1:
+            case 1 -> {
                 ConexaoRede conexaoMonofasica = new ConexaoMonofasica();
-                ConexaoRede adaptador = new AdaptadorConexao(conexaoMonofasica);                                         
+                ConexaoRede adaptador = new AdaptadorConexao(conexaoMonofasica);
                 adaptador.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));                   
                 if (!this.jToggleButton2.isSelected()) {
                     this.jToggleButton2.setText("Gerenciar");
                     adaptador.desconectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));            
                 } else {
-
-                    this.jToggleButton2.setText("Parar");            
-                    adaptador.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));   
-                }                    
-                break;
-            case 2:
+                    
+                    this.jToggleButton2.setText("Parar");
+                    adaptador.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));
+                }
+            }
+            case 2 -> {
                 ConexaoRede conexaoBifasica = new ConexaoBifasica();
-                ConexaoRede adaptador2 = new AdaptadorConexao(conexaoBifasica);                                         
+                ConexaoRede adaptador2 = new AdaptadorConexao(conexaoBifasica);
                 adaptador2.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));                   
                 if (!this.jToggleButton2.isSelected()) {
                     this.jToggleButton2.setText("Gerenciar");
                     adaptador2.desconectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));            
                 } else {
-
-                    this.jToggleButton2.setText("Parar");            
-                    adaptador2.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));   
-                }                    
-                break;
-            case 3:
+                    
+                    this.jToggleButton2.setText("Parar");
+                    adaptador2.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));
+                }
+            }
+            case 3 -> {
                 ConexaoRede conexaoTrifasica = new ConexaoTrifasica();
-                ConexaoRede adaptador3 = new AdaptadorConexao(conexaoTrifasica);                                         
+                ConexaoRede adaptador3 = new AdaptadorConexao(conexaoTrifasica);
                 adaptador3.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));                   
                 if (!this.jToggleButton2.isSelected()) {
                     this.jToggleButton2.setText("Gerenciar");
                     adaptador3.desconectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));            
                 } else {
-
-                    this.jToggleButton2.setText("Parar");            
-                    adaptador3.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));   
-                }                                    
-                break;                                
-            default:
-                throw new AssertionError();
+                    
+                    this.jToggleButton2.setText("Parar");
+                    adaptador3.conectarGerenciador(unidadeGrid, unidadeGrid.getUsinaDeProducao().get(0));
+                }
+            }
+            default -> throw new AssertionError();
         }
         
         
@@ -460,9 +458,15 @@ public class Gerenciador extends javax.swing.JFrame {
             
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
-    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton4ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        UnidadeGridGerenciadorDeRedesRadiais  unidadeGrid = UnidadeGridGerenciadorDeRedesRadiais.getInstanciaDoDistribuidor();
+        UnidadeGridUsinaDeProducao usinaDoGrid = UnidadeGridUsinaDeProducao.getInstanciaDaUsinadoGrid();
+         if (usinaDoGrid.getQuantEstoqueParaRepassar()>10){
+             double novoEstoque = usinaDoGrid.getQuantEstoqueParaRepassar() + unidadeGrid.getQuantidadeEnergiaProduzida() - unidadeGrid.getQuantidadeEnergiaConsumida();
+             usinaDoGrid.setQuantEstoqueParaRepassar(0);
+         }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,14 +511,13 @@ public class Gerenciador extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Gerenciador().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Gerenciador().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -535,6 +538,5 @@ public class Gerenciador extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables
 }

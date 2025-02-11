@@ -19,7 +19,6 @@
 
 package view;
 
-import application.Docmd;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.text.DecimalFormat;
@@ -36,11 +35,9 @@ import model.UnidadeGridConsumidora;
 import model.UnidadeGridGerenciadorDeRedesRadiais;
        
 public class Consumidores extends javax.swing.JFrame {
-
-    Docmd docmd = Docmd.getInstaciaDoCmd();
     
     private Timer timer;
-    private DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
     
     public int indiceObjeto = 0;
     
@@ -51,7 +48,11 @@ public class Consumidores extends javax.swing.JFrame {
         iniciarAtualizacaoTempo();                
     }
 
+    public void interage() {
+        jToggleButton2ActionPerformed(null);
+    }
 
+    
     private void iniciarAtualizacaoTempo() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -66,11 +67,16 @@ public class Consumidores extends javax.swing.JFrame {
                 long currentTime = now.toInstant().toEpochMilli();
                 long elapsedTime;
 
+                System.out.println(consumidor.getOnLineDesde());
                 if (consumidor.getOnLineDesde() != null) {
                     ZonedDateTime startTime = consumidor.getOnLineDesde().atZone(ZoneId.of("America/Sao_Paulo"));
                     elapsedTime = currentTime - startTime.toInstant().toEpochMilli();
+                    jLabel6.setForeground(Color.green);
+                    jToggleButton1.setEnabled(false);                    
                 } else {
                     elapsedTime = 0;
+                    jLabel6.setForeground(Color.red);
+                    jToggleButton1.setEnabled(false);                    
                 }
 
                 long hours = (elapsedTime / (1000 * 60 * 60)) % 24;
@@ -80,17 +86,7 @@ public class Consumidores extends javax.swing.JFrame {
                 String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
                 jToggleButton1.setText(timeFormatted);
 
-                // Verifica o estado da rede
-                if (!unidadeGrid.isRedeOnline()) {
-                    jLabel6.setForeground(Color.red);
-                    jToggleButton1.setEnabled(false);
-                    //Toolkit.getDefaultToolkit().beep();    
-                    System.out.println(consumidor.getIdentificadorUnidadeGrid());
-                } else {
-                    jLabel6.setForeground(Color.green);
-                    jToggleButton1.setEnabled(false);
-                }
-
+                System.out.println(consumidor.isConsumidorOnline());
                 // Verifica o estado do consumidor
                 if (!consumidor.isConsumidorOnline()) {
                     jLabel13.setForeground(Color.red);
@@ -98,6 +94,7 @@ public class Consumidores extends javax.swing.JFrame {
                     Toolkit.getDefaultToolkit().beep();
                 } else {
                     jLabel13.setForeground(Color.green);
+                    jToggleButton1.setEnabled(true);
                     jLabel2.setText(indiceObjeto + "- " + consumidor.getIdentificadorUnidadeGrid());
                     jLabel5.setText(consumidor.getResponsavelUnidade());
                     jLabel4.setText(consumidor.getEnderecoUnidade());
@@ -386,48 +383,46 @@ public class Consumidores extends javax.swing.JFrame {
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
     
         UnidadeGridGerenciadorDeRedesRadiais unidadeGrid = UnidadeGridGerenciadorDeRedesRadiais.getInstanciaDoDistribuidor();
-        UnidadeGridConsumidora novoCons = new UnidadeGridConsumidora();
-        novoCons= unidadeGrid.getListaConsumidores().get(indiceObjeto);
+        unidadeGrid.getListaConsumidores().get(indiceObjeto);
         
         switch (unidadeGrid.getListaConsumidores().get(indiceObjeto).getTipoCorrenteFase()) {
-            case 1:
+            case 1 -> {
                 ConexaoRede conexaoMonofasica = new ConexaoMonofasica();
                 ConexaoRede adaptador = new AdaptadorConexao(conexaoMonofasica);                                         
                 if (this.jToggleButton2.isSelected()) {
                     this.jToggleButton2.setText("Parar");
                     adaptador.conectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));                                                    
                 } else {
-                    this.jToggleButton2.setText("Consumir");            
-                    adaptador.desconectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));                       
+                    this.jToggleButton2.setText("Consumir");
+                    adaptador.desconectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));
                 }     
                 System.out.println(unidadeGrid.getListaConsumidores().get(indiceObjeto));
-                break;
-            case 2:
+            }
+            case 2 -> {
                 ConexaoRede conexaoBifasica = new ConexaoBifasica();
                 ConexaoRede adaptador2 = new AdaptadorConexao(conexaoBifasica);                                         
                 if (this.jToggleButton2.isSelected()) {
                     this.jToggleButton2.setText("Parar");
                     adaptador2.conectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));                                
                 } else {
-                    this.jToggleButton2.setText("Consumir");            
-                    adaptador2.desconectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));                       
+                    this.jToggleButton2.setText("Consumir");
+                    adaptador2.desconectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));
                 }                    
                 System.out.println(unidadeGrid.getListaConsumidores().get(indiceObjeto));
-                break;
-            case 3:
+            }
+            case 3 -> {
                 ConexaoRede conexaoTrifasica = new ConexaoTrifasica();
                 ConexaoRede adaptador3 = new AdaptadorConexao(conexaoTrifasica);                                         
                 if (this.jToggleButton2.isSelected()) {
                     this.jToggleButton2.setText("Parar");
                     adaptador3.conectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));                                              
                 } else {
-                    this.jToggleButton2.setText("Consumir");            
-                    adaptador3.desconectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));                       
+                    this.jToggleButton2.setText("Consumir");
+                    adaptador3.desconectar(unidadeGrid.getListaConsumidores().get(indiceObjeto), unidadeGrid.getUsinaDeProducao().get(0));
                 }                             
                 System.out.println(unidadeGrid.getListaConsumidores().get(indiceObjeto));
-                break;                                
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 

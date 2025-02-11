@@ -19,7 +19,6 @@
 
 package view;
 
-import application.Docmd;
 import java.awt.Color;
 import java.awt.Frame;
 import java.text.DecimalFormat;
@@ -39,10 +38,7 @@ import model.UnidadeGridUsinaDeProducao;
 
        
 public class Usina extends javax.swing.JFrame {
-           
-    
-    Docmd docmd = Docmd.getInstaciaDoCmd();
-            
+                          
     public Usina() {      
         
         initComponents();              
@@ -411,7 +407,7 @@ public class Usina extends javax.swing.JFrame {
         UnidadeGridGerenciadorDeRedesRadiais unidadeGrid = UnidadeGridGerenciadorDeRedesRadiais.getInstanciaDoDistribuidor();
         UnidadeGridUsinaDeProducao usinadoGrid = UnidadeGridUsinaDeProducao.getInstanciaDaUsinadoGrid();
         switch (usinadoGrid.getTipoCorrenteFase()) {
-            case 1:
+            case 1 -> {
                 ConexaoRede conexaoMonofasica = new ConexaoMonofasica();
                 ConexaoRede adaptador = new AdaptadorConexao(conexaoMonofasica);
                 if (!this.jToggleButton2.isSelected()) {
@@ -423,10 +419,10 @@ public class Usina extends javax.swing.JFrame {
                     this.jToggleButton2.setText("Parar");            
                     adaptador.conectarUsina(unidadeGrid, usinadoGrid);
                     jLabel13.setForeground(Color.GREEN);
-                    jLabel6.setForeground(Color.GREEN);                    
-                }                    
-                break;
-            case 2:
+                    jLabel6.setForeground(Color.GREEN);
+                }
+            }
+            case 2 -> {
                 ConexaoRede conexaoBifasica = new ConexaoBifasica();
                 ConexaoRede adaptador2 = new AdaptadorConexao(conexaoBifasica);
                 if (!this.jToggleButton2.isSelected()) {
@@ -439,9 +435,9 @@ public class Usina extends javax.swing.JFrame {
                     jLabel13.setForeground(Color.GREEN);
                     jLabel6.setForeground(Color.GREEN);                                        
                     adaptador2.conectarUsina(unidadeGrid, usinadoGrid);
-                }                    
-                break;
-            case 3:
+                }
+            }
+            case 3 -> {
                 ConexaoRede conexaoTrifasica = new ConexaoTrifasica();
                 ConexaoRede adaptador3 = new AdaptadorConexao(conexaoTrifasica);
                 if (!this.jToggleButton2.isSelected()) {
@@ -454,10 +450,9 @@ public class Usina extends javax.swing.JFrame {
                     jLabel13.setForeground(Color.GREEN);
                     jLabel6.setForeground(Color.GREEN);                                        
                     adaptador3.conectarUsina(unidadeGrid, usinadoGrid);
-                }                                    
-                break;                                
-            default:
-                throw new AssertionError();
+                }
+            }
+            default -> throw new AssertionError();
         }
         
     }//GEN-LAST:event_jToggleButton2ActionPerformed

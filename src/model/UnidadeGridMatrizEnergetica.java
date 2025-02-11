@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class UnidadeGridMatrizEnergetica extends UnidadeGrid{
         
-    private int potenciaEmEstoque = 0;      
+    private double potenciaEmEstoque = 0;      
     private int capacidadeProducaoPorHora = 10;      
     private int modoOperacao = 0;
     private int tempoOperacaoEstimado = 8;
@@ -43,7 +43,7 @@ public class UnidadeGridMatrizEnergetica extends UnidadeGrid{
         this.listaFontesProducaoEnergias = new ArrayList<>();
     }
      
-    public int getPotenciaEmEstoque() {
+    public double getPotenciaEmEstoque() {
         return potenciaEmEstoque;
     }
 
@@ -113,7 +113,7 @@ public class UnidadeGridMatrizEnergetica extends UnidadeGrid{
         // Calcular energia líquida
         energiaLiquida = energiaProduzida - energiaConsumida;
 
-        System.out.println(energiaLiquida);
+        potenciaEmEstoque = energiaLiquida;
 
         // Retornar a média de produção de energia das matrizes energéticas
         return porcentagemTotal / cont + energiaLiquida;

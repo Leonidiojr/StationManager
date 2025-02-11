@@ -24,6 +24,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import model.UnidadeGridGerenciadorDeRedesRadiais;
@@ -31,7 +32,7 @@ import model.UnidadeGridConsumidora;
 import model.UnidadeGridFonteProducaoEnergia;
 import model.UnidadeGridUsinaDeProducao;
 
-public class InformacaoConexao extends javax.swing.JDialog {
+public final class InformacaoConexao extends javax.swing.JDialog {
 
     UnidadeGridGerenciadorDeRedesRadiais unidadeGrid = UnidadeGridGerenciadorDeRedesRadiais.getInstanciaDoDistribuidor();
 
@@ -51,39 +52,32 @@ public class InformacaoConexao extends javax.swing.JDialog {
     public void adicionarFontesEnergia(JTable jTable1) {
        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-
-        // Adiciona as colunas ao JTable
-        model.addColumn("identificadorFonteProducao");
-        model.addColumn("tipoFonteEnergia");
-        model.addColumn("fonteRenovavel");
-        model.addColumn("potenciaEmEstoque");
-        model.addColumn("quantidadeEnergiaConsumidaporHora");
-        model.addColumn("quantidadeEnergiaProduzidaporHora");
-        
-        UnidadeGridGerenciadorDeRedesRadiais unidadeGrid = UnidadeGridGerenciadorDeRedesRadiais.getInstanciaDoDistribuidor();
+        model.
+              
         UnidadeGridUsinaDeProducao usinadoGrid = UnidadeGridUsinaDeProducao.getInstanciaDaUsinadoGrid();    
         
         // Supondo que usinadoGrid é uma instância já inicializada de um objeto que tem o método getMatrizEnergetica
         List<UnidadeGridFonteProducaoEnergia> listaFontesProducaoEnergias = new ArrayList<>();        
-        listaFontesProducaoEnergias = usinadoGrid.getMatrizEnergetica().getFirst().getFontesProducaoEnergias();
-        
-        model.removeRow(0);
-        model.removeRow(0);
-        model.removeRow(0);
-        model.removeRow(0);
+        listaFontesProducaoEnergias = usinadoGrid.getMatrizEnergetica().get(0).getFontesProducaoEnergias();        
         
         // Adiciona as linhas de dados ao JTable
         for (UnidadeGridFonteProducaoEnergia fonte : listaFontesProducaoEnergias) {
             Object[] linha = {
                 fonte.getIdentificadorFonteProducao(),
-                fonte.getTipoFonteEnergia(),
+                String.valueOf(fonte.getTipoFonteEnergia()),
                 fonte.isFonteRenovavel(),
                 fonte.getPotenciaEmEstoque(),
                 fonte.getQuantidadeEnergiaConsumidaporHora(),
                 fonte.getQuantidadeEnergiaProduzidaporHora()
             };
             model.addRow(linha);                
+            // Obtendo o modelo de coluna da tabela
+            TableColumnModel modeloColuna = jTable1.getColumnModel();
+            // Definindo a largura das colunas
+            modeloColuna.getColumn(0).setPreferredWidth(150); // Largura da coluna "ID"
+            modeloColuna.getColumn(1).setPreferredWidth(100); // Largura da coluna "Nome"
+            modeloColuna.getColumn(2).setPreferredWidth(80); // Largura da coluna "Nome"           
+            
     }
     }
     
@@ -97,17 +91,10 @@ private void adicionarUnidadesAoJTree(JTree tree, UnidadeGridGerenciadorDeRedesR
 
     for (UnidadeGridConsumidora consumidor : unidadeGrid.getListaConsumidores()) {
         switch (consumidor.getTipoCorrenteFase()) {
-            case 1:
-                monofasicaNode.add(new DefaultMutableTreeNode(consumidor.getIdentificadorUnidadeGrid() + " - " + consumidor.getResponsavelUnidade() + " - " + consumidor.getTelefoneResponsavel()));
-                break;
-            case 2:
-                bifasicaNode.add(new DefaultMutableTreeNode(consumidor.getIdentificadorUnidadeGrid() + " - " + consumidor.getResponsavelUnidade() + " - " + consumidor.getTelefoneResponsavel()));
-                break;
-            case 3:
-                trifasicaNode.add(new DefaultMutableTreeNode(consumidor.getIdentificadorUnidadeGrid() + " - " + consumidor.getResponsavelUnidade() + " - " + consumidor.getTelefoneResponsavel()));
-                break;
-            default:
-                throw new AssertionError("Tipo de corrente não suportado: " + consumidor.getTipoCorrenteFase());
+            case 1 -> monofasicaNode.add(new DefaultMutableTreeNode(consumidor.getIdentificadorUnidadeGrid() + " - " + consumidor.getResponsavelUnidade() + " - " + consumidor.getTelefoneResponsavel() + " - Online:" + consumidor.isConsumidorOnline()));
+            case 2 -> bifasicaNode.add(new DefaultMutableTreeNode(consumidor.getIdentificadorUnidadeGrid() + " - " + consumidor.getResponsavelUnidade() + " - " + consumidor.getTelefoneResponsavel()+ " - Online:" + consumidor.isConsumidorOnline()));
+            case 3 -> trifasicaNode.add(new DefaultMutableTreeNode(consumidor.getIdentificadorUnidadeGrid() + " - " + consumidor.getResponsavelUnidade() + " - " + consumidor.getTelefoneResponsavel()+ " - Online:" + consumidor.isConsumidorOnline()));
+            default -> throw new AssertionError("Tipo de corrente não suportado: " + consumidor.getTipoCorrenteFase());
         }
     }
 
@@ -138,6 +125,8 @@ private void adicionarUnidadesAoJTree(JTree tree, UnidadeGridGerenciadorDeRedesR
         jTree1 = new javax.swing.JTree();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
 
@@ -168,16 +157,32 @@ private void adicionarUnidadesAoJTree(JTree tree, UnidadeGridGerenciadorDeRedesR
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "Identificador", "Tipo", "Renovável?", "Consumido/h", "Produzido/h", "Estoque"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
+
+        jLabel1.setText("Consumidores por tipo de conexão:");
+
+        jLabel5.setText("Fontes de produção de energia da Usina:");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -187,12 +192,15 @@ private void adicionarUnidadesAoJTree(JTree tree, UnidadeGridGerenciadorDeRedesR
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -200,16 +208,20 @@ private void adicionarUnidadesAoJTree(JTree tree, UnidadeGridGerenciadorDeRedesR
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
-                        .addGap(39, 39, 39)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addGap(1, 1, 1)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -300,25 +312,25 @@ private void adicionarUnidadesAoJTree(JTree tree, UnidadeGridGerenciadorDeRedesR
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                InformacaoConexao dialog = new InformacaoConexao(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            InformacaoConexao dialog = new InformacaoConexao(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

@@ -26,7 +26,6 @@ import static application.TipoUnidadeGrid.GERENCIADOR;
 
 public class UnidadeGridGerenciadorDeRedesRadiais extends UnidadeGrid implements ConexaoRede{
     
-    final TipoUnidadeGrid tipoUnidade = GERENCIADOR;            
     private String identificadorGerenciador = "Gerenciador de Rede Radial";
     private int quantidadeDeConsumidores = 0;
     private int quantidadeDeProdutores = 0;

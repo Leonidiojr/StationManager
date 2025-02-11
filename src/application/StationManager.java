@@ -27,6 +27,7 @@ public class StationManager {
 
     public static void main(String[] args) {
                         
+        System.out.println("⚠️⚠️ ATENÇÃO! ⚠️⚠️");
         
         Docmd docmd = Docmd.getInstaciaDoCmd();
         
